@@ -1,29 +1,41 @@
 {
   "cli": {
-    "version": ">= 7.8.6"
+    "version": ">= 3.0.0"
   },
   "build": {
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "resourceClass": "default",
       "ios": {
-        "resourceClass": "m-medium"
+        "simulator": true,
+        "buildConfiguration": "Debug"
       }
     },
     "preview": {
       "distribution": "internal",
+      "resourceClass": "default",
       "ios": {
-        "resourceClass": "m-medium",
-        "simulator": true
+        "simulator": false,
+        "buildConfiguration": "Release"
       }
     },
     "production": {
+      "distribution": "store",
+      "resourceClass": "large",
       "ios": {
-        "resourceClass": "m-medium"
+        "simulator": false,
+        "buildConfiguration": "Release"
       }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "your-apple-id@example.com",
+        "ascAppId": "your-app-store-connect-app-id",
+        "appleTeamId": "YOUR_TEAM_ID"
+      }
+    }
   }
 }

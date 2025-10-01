@@ -1,0 +1,236 @@
+version: 1
+workflows:
+  development:
+    name: "Development Build"
+    description: "Build and test development version"
+    trigger:
+      pull_request:
+        target_branch:
+          - main
+          - develop
+      push:
+        branch:
+          - develop
+    environment:
+      xcode: 15.2
+      node: 18.x
+      variables:
+        - name: EXPO_TOKEN
+          value: $EXPO_TOKEN
+        - name: APP_STORE_CONNECT_API_KEY_ID
+          value: $APP_STORE_CONNECT_API_KEY_ID
+        - name: APP_STORE_CONNECT_ISSUER_ID
+          value: $APP_STORE_CONNECT_ISSUER_ID
+        - name: APP_STORE_CONNECT_PRIVATE_KEY
+          value: $APP_STORE_CONNECT_PRIVATE_KEY
+        - name: IOS_BUNDLE_IDENTIFIER
+          value: "com.psiqueia.app"
+        - name: CODE_SIGNING_STYLE
+          value: "Automatic"
+        - name: DEVELOPMENT_TEAM
+          value: $DEVELOPMENT_TEAM
+        - name: CI
+          value: "true"
+    steps:
+      - name: Install Node.js Dependencies
+        script: |
+          set -e
+          echo "Installing Node.js dependencies..."
+          npm ci
+          echo "Node.js dependencies installed successfully"
+      - name: Install CocoaPods Dependencies
+        script: |
+          set -e
+          echo "Installing CocoaPods dependencies..."
+          cd ios && pod install --repo-update && cd ..
+          echo "CocoaPods dependencies installed successfully"
+      - name: Generate Native Code
+        script: |
+          set -e
+          echo "Generating native iOS code..."
+          npx expo prebuild --platform ios --clean
+          echo "Native code generated successfully"
+      - name: Build iOS App
+        script: |
+          set -e
+          echo "Building iOS app for development..."
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+                     -scheme PsiqueiaApp \
+                     -configuration Debug \
+                     -destination 'platform=iOS Simulator,name=iPhone 15' \
+                     -derivedDataPath ios/build \
+                     build
+          echo "iOS app built successfully"
+      - name: Run Tests
+        script: |
+          set -e
+          echo "Running unit tests..."
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+                     -scheme PsiqueiaApp \
+                     -configuration Debug \
+                     -destination 'platform=iOS Simulator,name=iPhone 15' \
+                     -derivedDataPath ios/build \
+                     test
+          echo "Tests completed successfully"
+
+  production:
+    name: "Production Build"
+    description: "Build and deploy production version to App Store"
+    trigger:
+      tag:
+        pattern: "v*"
+      push:
+        branch:
+          - main
+    environment:
+      xcode: 15.2
+      node: 18.x
+      variables:
+        - name: EXPO_TOKEN
+          value: $EXPO_TOKEN
+        - name: APP_STORE_CONNECT_API_KEY_ID
+          value: $APP_STORE_CONNECT_API_KEY_ID
+        - name: APP_STORE_CONNECT_ISSUER_ID
+          value: $APP_STORE_CONNECT_ISSUER_ID
+        - name: APP_STORE_CONNECT_PRIVATE_KEY
+          value: $APP_STORE_CONNECT_PRIVATE_KEY
+        - name: IOS_BUNDLE_IDENTIFIER
+          value: "com.psiqueia.app"
+        - name: CODE_SIGNING_STYLE
+          value: "Automatic"
+        - name: DEVELOPMENT_TEAM
+          value: $DEVELOPMENT_TEAM
+        - name: CI
+          value: "true"
+        - name: MATCH_PASSWORD
+          value: $MATCH_PASSWORD
+    steps:
+      - name: Install Node.js Dependencies
+        script: |
+          set -e
+          echo "Installing Node.js dependencies..."
+          npm ci
+          echo "Node.js dependencies installed successfully"
+      - name: Install CocoaPods Dependencies
+        script: |
+          set -e
+          echo "Installing CocoaPods dependencies..."
+          cd ios && pod install --repo-update && cd ..
+          echo "CocoaPods dependencies installed successfully"
+      - name: Generate Native Code
+        script: |
+          set -e
+          echo "Generating native iOS code..."
+          npx expo prebuild --platform ios --clean
+          echo "Native code generated successfully"
+      - name: Build iOS App
+        script: |
+          set -e
+          echo "Building iOS app for production..."
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+                     -scheme PsiqueiaApp \
+                     -configuration Release \
+                     -destination generic/platform=iOS \
+                     -derivedDataPath ios/build \
+                     build
+          echo "iOS app built successfully"
+      - name: Run Tests
+        script: |
+          set -e
+          echo "Running unit tests..."
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+                     -scheme PsiqueiaApp \
+                     -configuration Release \
+                     -destination 'platform=iOS Simulator,name=iPhone 15' \
+                     -derivedDataPath ios/build \
+                     test
+          echo "Tests completed successfully"
+      - name: Archive iOS App
+        script: |
+          set -e
+          echo "Archiving iOS app..."
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+                     -scheme PsiqueiaApp \
+                     -configuration Release \
+                     -destination generic/platform=iOS \
+                     -archivePath ios/build/PsiqueiaApp.xcarchive \
+                     archive
+          echo "iOS app archived successfully"
+      - name: Export IPA
+        script: |
+          set -e
+          echo "Exporting IPA..."
+          xcodebuild -exportArchive \
+                     -archivePath ios/build/PsiqueiaApp.xcarchive \
+                     -exportPath ios/build/export \
+                     -exportOptionsPlist ios/ExportOptions.plist
+          echo "IPA exported successfully"
+      - name: Upload to App Store Connect
+        script: |
+          set -e
+          echo "Uploading to App Store Connect..."
+          xcrun altool --upload-app \
+                       --type ios \
+                       --file ios/build/export/PsiqueiaApp.ipa \
+                       --apiKey $APP_STORE_CONNECT_API_KEY_ID \
+                       --apiIssuer $APP_STORE_CONNECT_ISSUER_ID
+          echo "Upload to App Store Connect completed successfully"
+
+  test:
+    name: "Test"
+    description: "Run tests and code analysis"
+    trigger:
+      pull_request:
+        target_branch:
+          - main
+          - develop
+    environment:
+      xcode: 15.2
+      node: 18.x
+      variables:
+        - name: EXPO_TOKEN
+          value: $EXPO_TOKEN
+        - name: CI
+          value: "true"
+    steps:
+      - name: Install Node.js Dependencies
+        script: |
+          set -e
+          echo "Installing Node.js dependencies..."
+          npm ci
+          echo "Node.js dependencies installed successfully"
+      - name: Install CocoaPods Dependencies
+        script: |
+          set -e
+          echo "Installing CocoaPods dependencies..."
+          cd ios && pod install --repo-update && cd ..
+          echo "CocoaPods dependencies installed successfully"
+      - name: Generate Native Code
+        script: |
+          set -e
+          echo "Generating native iOS code..."
+          npx expo prebuild --platform ios --clean
+          echo "Native code generated successfully"
+      - name: Run Unit Tests
+        script: |
+          set -e
+          echo "Running unit tests..."
+          npm run test
+          echo "Unit tests completed successfully"
+      - name: Run Integration Tests
+        script: |
+          set -e
+          echo "Running integration tests..."
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+                     -scheme PsiqueiaApp \
+                     -configuration Debug \
+                     -destination 'platform=iOS Simulator,name=iPhone 15' \
+                     -derivedDataPath ios/build \
+                     test
+          echo "Integration tests completed successfully"
+      - name: Code Analysis
+        script: |
+          set -e
+          echo "Running code analysis..."
+          npm run lint
+          echo "Code analysis completed successfully"

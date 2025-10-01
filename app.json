@@ -8,16 +8,47 @@
     "scheme": "psiquia",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "privacy": "public",
+    "platforms": ["ios", "android", "web"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.psiquia.app",
+      "bundleIdentifier": "com.thalesdev.psiqueiaapp",
       "buildNumber": "1",
+      "deploymentTarget": "13.0",
+      "requireFullScreen": false,
+      "userInterfaceStyle": "automatic",
       "infoPlist": {
-        "NSCameraUsageDescription": "Este app precisa acessar a câmera para capturar fotos e documentos.",
-        "NSMicrophoneUsageDescription": "Este app precisa acessar o microfone para gravação de áudio.",
-        "NSPhotoLibraryUsageDescription": "Este app precisa acessar a galeria de fotos para selecionar imagens.",
-        "NSLocationWhenInUseUsageDescription": "Este app precisa acessar sua localização para funcionalidades baseadas em localização.",
-        "NSFaceIDUsageDescription": "Use Face ID para autenticação rápida e segura."
+        "NSCameraUsageDescription": "Este aplicativo precisa acessar a câmera para capturar fotos e vídeos para o diário de humor.",
+        "NSMicrophoneUsageDescription": "Este aplicativo precisa acessar o microfone para gravar áudios para o diário de humor.",
+        "NSPhotoLibraryUsageDescription": "Este aplicativo precisa acessar a galeria de fotos para selecionar imagens para o diário de humor.",
+        "NSLocationWhenInUseUsageDescription": "Este aplicativo pode usar sua localização para fornecer recursos baseados em localização.",
+        "NSFaceIDUsageDescription": "Este aplicativo usa Face ID para autenticação segura.",
+        "NSPhotoLibraryAddUsageDescription": "Este aplicativo precisa salvar fotos na galeria.",
+        "NSContactsUsageDescription": "Este aplicativo pode acessar contatos para funcionalidades de compartilhamento.",
+        "NSCalendarsUsageDescription": "Este aplicativo pode acessar o calendário para agendar sessões.",
+        "NSRemindersUsageDescription": "Este aplicativo pode criar lembretes para suas sessões.",
+        "NSHealthShareUsageDescription": "Este aplicativo pode acessar dados de saúde para melhor acompanhamento.",
+        "NSHealthUpdateUsageDescription": "Este aplicativo pode atualizar dados de saúde com informações de humor.",
+        "NSUserTrackingUsageDescription": "Este aplicativo usa dados para personalizar sua experiência e melhorar nossos serviços.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleAllowMixedLocalizations": true,
+        "UIBackgroundModes": ["background-processing", "background-fetch"],
+        "UIRequiredDeviceCapabilities": ["arm64"],
+        "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
+        "UISupportedInterfaceOrientations~ipad": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ]
+      },
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "associatedDomains": ["applinks:psiqueia.app"],
+      "entitlements": {
+        "com.apple.developer.healthkit": true,
+        "com.apple.developer.healthkit.access": ["health-records"]
       }
     },
     "android": {
@@ -25,8 +56,11 @@
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.psiquia.app",
+      "package": "com.psiqueia.app",
       "versionCode": 1,
+      "compileSdkVersion": 34,
+      "targetSdkVersion": 34,
+      "minSdkVersion": 21,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
@@ -35,7 +69,14 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.USE_FINGERPRINT",
-        "android.permission.USE_BIOMETRIC"
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.WAKE_LOCK",
+        "android.permission.VIBRATE"
+      ],
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW"
       ]
     },
     "web": {
@@ -79,10 +120,29 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Este app precisa acessar sua localização para funcionalidades baseadas em localização."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "13.0"
+          },
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "minSdkVersion": 21
+          }
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
   }
 }

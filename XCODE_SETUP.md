@@ -10,7 +10,7 @@ Para usar este projeto React Native/Expo no Xcode, você precisará:
 4. **Expo CLI** - Para gerenciar o projeto
 
 ## Passos para Configuração
-
+/
 ### 1. Clone o Repositório
 
 ```bash
