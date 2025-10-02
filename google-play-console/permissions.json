@@ -1,0 +1,14 @@
+{
+  "required": [
+    {
+      "name": "android.permission.INTERNET",
+      "reason": "Required for app functionality (minimal usage)"
+    }
+  ],
+  "optional": [
+    {
+      "name": "android.permission.HEALTH_CONNECT",
+      "reason": "To sync health data locally (Android equivalent to HealthKit)"
+    }
+  ]
+}

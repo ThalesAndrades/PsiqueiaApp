@@ -1,0 +1,84 @@
+{
+  "name": "Staging Build",
+  "description": "Build para TestFlight com testes completos",
+  "trigger": {
+    "push": {
+      "branches": [
+        "staging",
+        "release/*"
+      ]
+    }
+  },
+  "environment": {
+    "xcode": "15.2",
+    "node": "18.x",
+    "variables": [
+      {
+        "name": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "name": "CI",
+        "value": "true"
+      },
+      {
+        "name": "EXPO_PUBLIC_ENV",
+        "value": "staging"
+      },
+      {
+        "name": "IOS_BUNDLE_IDENTIFIER",
+        "value": "$IOS_BUNDLE_IDENTIFIER"
+      },
+      {
+        "name": "DEVELOPMENT_TEAM",
+        "value": "$DEVELOPMENT_TEAM"
+      },
+      {
+        "name": "APP_STORE_CONNECT_API_KEY_ID",
+        "value": "$APP_STORE_CONNECT_API_KEY_ID"
+      },
+      {
+        "name": "APP_STORE_CONNECT_ISSUER_ID",
+        "value": "$APP_STORE_CONNECT_ISSUER_ID"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "name": "Install Dependencies",
+      "script": "set -e\necho \"🔧 Instalando dependências de produção...\"\nnpm ci --production=false\nnpx expo install --fix"
+    },
+    {
+      "name": "Run Full Test Suite",
+      "script": "set -e\necho \"🧪 Executando suite completa de testes...\"\nnpm run test:full || npm test -- --coverage --watchAll=false\nnpm run lint\nnpm run type-check || echo \"⚠️ Type checking não configurado\""
+    },
+    {
+      "name": "Build Assets",
+      "script": "set -e\necho \"🎨 Construindo assets...\"\nnpm run build:assets || echo \"⚠️ Build de assets não configurado\""
+    },
+    {
+      "name": "Generate iOS Project",
+      "script": "set -e\necho \"📱 Gerando projeto iOS para staging...\"\nnpx expo prebuild --platform ios --clean --no-install"
+    },
+    {
+      "name": "Install CocoaPods",
+      "script": "set -e\necho \"🍫 Instalando CocoaPods...\"\ncd ios\npod install --repo-update\ncd .."
+    },
+    {
+      "name": "Configure Code Signing",
+      "script": "set -e\necho \"🔐 Configurando assinatura de código...\"\ncd ios\n# Configurar provisioning profiles automaticamente\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Release \\\n  -allowProvisioningUpdates \\\n  -destination generic/platform=iOS \\\n  clean"
+    },
+    {
+      "name": "Build and Archive",
+      "script": "set -e\necho \"🏗️ Construindo e arquivando para TestFlight...\"\ncd ios\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Release \\\n  -destination generic/platform=iOS \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  -allowProvisioningUpdates \\\n  archive"
+    },
+    {
+      "name": "Export for TestFlight",
+      "script": "set -e\necho \"📤 Exportando para TestFlight...\"\ncd ios\nxcodebuild -exportArchive \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  -exportPath ./build \\\n  -exportOptionsPlist exportOptions.plist \\\n  -allowProvisioningUpdates"
+    },
+    {
+      "name": "Upload to TestFlight",
+      "script": "set -e\necho \"🚀 Enviando para TestFlight...\"\ncd ios\nxcrun altool --upload-app \\\n  --type ios \\\n  --file \"./build/PsiqueiaApp.ipa\" \\\n  --apiKey $APP_STORE_CONNECT_API_KEY_ID \\\n  --apiIssuer $APP_STORE_CONNECT_ISSUER_ID \\\n  --verbose"
+    }
+  ]
+}

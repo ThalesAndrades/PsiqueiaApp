@@ -1,0 +1,69 @@
+{
+  "APP_STORE_CONNECT_API_KEY_ID": {
+    "value": "5D79LKKR26",
+    "description": "ID da chave API do App Store Connect",
+    "required": true,
+    "secret": false,
+    "configured": false
+  },
+  "APP_STORE_CONNECT_ISSUER_ID": {
+    "value": "[CONFIGURAR_NO_APP_STORE_CONNECT]",
+    "description": "Issuer ID da sua conta do App Store Connect",
+    "required": true,
+    "secret": false,
+    "configured": false,
+    "instructions": "App Store Connect > Users and Access > Keys > Copie o Issuer ID"
+  },
+  "APP_STORE_CONNECT_PRIVATE_KEY": {
+    "value": "[UPLOAD_ARQUIVO_P8]",
+    "description": "Chave privada do App Store Connect (arquivo .p8)",
+    "required": true,
+    "secret": true,
+    "configured": false,
+    "instructions": "Faça upload do arquivo AuthKey_5D79LKKR26.p8 no Xcode Cloud"
+  },
+  "DEVELOPMENT_TEAM": {
+    "value": "[CONFIGURAR_TEAM_ID]",
+    "description": "Team ID do Apple Developer Program",
+    "required": true,
+    "secret": false,
+    "configured": false,
+    "instructions": "Apple Developer Portal > Account > Membership > Team ID"
+  },
+  "IOS_BUNDLE_IDENTIFIER": {
+    "value": "com.psiqueia.app",
+    "description": "Bundle Identifier do app iOS",
+    "required": true,
+    "secret": false,
+    "configured": true
+  },
+  "CODE_SIGNING_STYLE": {
+    "value": "Automatic",
+    "description": "Estilo de assinatura de código",
+    "required": true,
+    "secret": false,
+    "configured": true
+  },
+  "EXPO_TOKEN": {
+    "value": "[OPCIONAL_EXPO_TOKEN]",
+    "description": "Token do Expo para builds automatizados",
+    "required": false,
+    "secret": true,
+    "configured": false,
+    "instructions": "https://expo.dev/accounts/[username]/settings/access-tokens"
+  },
+  "CI": {
+    "value": "true",
+    "description": "Flag indicando ambiente de CI/CD",
+    "required": true,
+    "secret": false,
+    "configured": true
+  },
+  "NODE_ENV": {
+    "value": "production",
+    "description": "Ambiente Node.js para builds de produção",
+    "required": true,
+    "secret": false,
+    "configured": true
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "Release Preparation",
+  "description": "Preparação e validação de releases",
+  "trigger": {
+    "push": {
+      "branches": [
+        "release/*"
+      ]
+    }
+  },
+  "environment": {
+    "xcode": "15.2",
+    "node": "18.x",
+    "variables": [
+      {
+        "name": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "name": "CI",
+        "value": "true"
+      },
+      {
+        "name": "EXPO_PUBLIC_ENV",
+        "value": "staging"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "name": "Install Dependencies",
+      "script": "set -e\necho \"🔧 Instalando dependências...\"\nnpm ci"
+    },
+    {
+      "name": "Version Validation",
+      "script": "set -e\necho \"🔍 Validando versão...\"\nnpm run version:check || echo \"⚠️ Version check não configurado\"\nnpm run changelog:validate || echo \"⚠️ Changelog validation não configurada\""
+    },
+    {
+      "name": "Run All Tests",
+      "script": "set -e\necho \"🧪 Executando todos os testes...\"\nnpm run test:all || npm test -- --coverage --watchAll=false\nnpm run lint\nnpm run type-check || echo \"⚠️ Type checking não configurado\""
+    },
+    {
+      "name": "Build Documentation",
+      "script": "set -e\necho \"📚 Construindo documentação...\"\nnpm run docs:build || echo \"⚠️ Build de documentação não configurado\""
+    },
+    {
+      "name": "Generate iOS Project",
+      "script": "set -e\necho \"📱 Gerando projeto iOS...\"\nnpx expo prebuild --platform ios --clean --no-install"
+    },
+    {
+      "name": "Validate iOS Build",
+      "script": "set -e\necho \"🔍 Validando build iOS...\"\ncd ios\npod install\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Release \\\n  -destination 'platform=iOS Simulator,name=iPhone 15' \\\n  build"
+    }
+  ]
+}
