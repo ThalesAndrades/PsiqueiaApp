@@ -140,13 +140,14 @@ export default function BiometricSetup({ email, password, onComplete, onSkip }: 
     return `Use ${types} para fazer login rapidamente no PsiqueIA. Suas credenciais ficam protegidas com criptografia avançada.`;
   };
 
-  if (!isAvailable) {
-    // Auto-skip if not available
-    React.useEffect(() => {
+  React.useEffect(() => {
+    if (!isAvailable) {
       const timer = setTimeout(() => onComplete(false), 1000);
       return () => clearTimeout(timer);
-    }, []);
-    
+    }
+  }, [isAvailable, onComplete]);
+
+  if (!isAvailable) {
     return null;
   }
 

@@ -139,7 +139,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Ultra-optimized initialization with aggressive caching
   useEffect(() => {
-    let forceTimeout: NodeJS.Timeout;
+    let forceTimeout: ReturnType<typeof setTimeout>;
 
     const initializeAuth = async () => {
       if (initializingRef.current) return;

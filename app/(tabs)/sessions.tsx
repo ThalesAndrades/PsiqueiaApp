@@ -222,7 +222,7 @@ export default function Sessions() {
                   </View>
 
                   {session.notes && (
-                    <Text style={styles.sessionNotes}>💭 "{session.notes}"</Text>
+                    <Text style={styles.sessionNotes}>💭 &quot;{session.notes}&quot;</Text>
                   )}
 
                   <TouchableOpacity

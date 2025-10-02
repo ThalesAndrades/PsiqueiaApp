@@ -86,6 +86,7 @@ export default function TabLayout() {
       </View>
     );
   });
+  TabBadge.displayName = 'TabBadge';
 
   // COMPONENTE DE ÍCONE OTIMIZADO
   const TabIcon = React.memo(({ icon, color, size, tabName }: { 
@@ -108,6 +109,7 @@ export default function TabLayout() {
       <TabBadge count={getBadgeCount(tabName)} />
     </View>
   ));
+  TabIcon.displayName = 'TabIcon';
 
   // Loading state simplificado
   if (!user?.profile?.user_type) {

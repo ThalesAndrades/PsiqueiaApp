@@ -24,6 +24,7 @@ const MemoizedQuickAction = React.memo(({ action, onPress }: { action: any; onPr
     </GradientCard>
   </TouchableOpacity>
 ));
+MemoizedQuickAction.displayName = 'MemoizedQuickAction';
 
 const MemoizedMoodCard = React.memo(({ 
   moodScore, 
@@ -69,6 +70,7 @@ const MemoizedMoodCard = React.memo(({
     </View>
   </GradientCard>
 ));
+MemoizedMoodCard.displayName = 'MemoizedMoodCard';
 
 export default function PatientDashboard() {
   const insets = useSafeAreaInsets();
@@ -264,7 +266,7 @@ export default function PatientDashboard() {
               <Text style={styles.tipsTitle}>Dica do Dia</Text>
             </View>
             <Text style={styles.tipsText}>
-              "Pratique a respiração profunda por 5 minutos. Inspire lentamente pelo nariz, segure por 4 segundos e expire pela boca."
+              &quot;Pratique a respiração profunda por 5 minutos. Inspire lentamente pelo nariz, segure por 4 segundos e expire pela boca.&quot;
             </Text>
             <PsiqueButton 
               title="Praticar Agora" 

@@ -13,9 +13,11 @@ interface TabConfig {
 }
 
 export function useTabNavigation() {
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const pathname = usePathname();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  const isAuthenticated = !!user;
 
   const isPatient = user?.profile?.user_type === 'patient';
   const isPsychologist = user?.profile?.user_type === 'psychologist';

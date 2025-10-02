@@ -159,6 +159,7 @@ export default function SmartTabBar() {
       </Text>
     </TouchableOpacity>
   ));
+  TabButton.displayName = 'TabButton';
 
   return (
     <View style={[

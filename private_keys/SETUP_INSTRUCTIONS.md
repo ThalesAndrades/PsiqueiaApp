@@ -1,38 +1,54 @@
 # 🔑 CONFIGURAÇÃO DA CHAVE PRIVADA DO APP STORE CONNECT
 
+## ⚠️ IMPORTANTE: CHAVE NECESSÁRIA
+
+O arquivo `AuthKey_5D79LKKR26.p8` atualmente contém apenas instruções.
+**Você precisa substituí-lo pela chave real baixada do App Store Connect.**
+
 ## 📋 INFORMAÇÕES DA CHAVE
 
-- **Key ID**: 5D79LKKR26
-- **Arquivo**: AuthKey_5D79LKKR26.p8
-- **Localização**: private_keys/AuthKey_5D79LKKR26.p8
+- **Key ID**: Será gerado pelo App Store Connect
+- **Arquivo**: AuthKey_[KEY_ID].p8
+- **Localização**: private_keys/AuthKey_[KEY_ID].p8
 
-## 🚀 PASSO A PASSO
+## 🚀 PASSO A PASSO COMPLETO
 
-### 1. Verificar Chave Local
+### 1. Acessar App Store Connect
+- URL: https://appstoreconnect.apple.com
+- Faça login com sua conta de desenvolvedor Apple
+
+### 2. Criar Nova Chave
+- Navegue: Users and Access → Keys
+- Clique em "+" para criar nova chave
+- **Nome**: PsiqueiaApp Key
+- **Access**: App Manager
+- **Apps**: Selecione "All Apps" ou específico
+
+### 3. Download da Chave
+- Clique em "Download" (⚠️ só pode baixar UMA vez!)
+- Salve o arquivo .p8 em local seguro
+- **IMPORTANTE**: Anote o Key ID gerado
+
+### 4. Substituir Arquivo Local
 ```bash
-ls -la private_keys/
-# Deve mostrar: AuthKey_5D79LKKR26.p8
+# Renomeie o arquivo baixado para o formato correto
+mv ~/Downloads/AuthKey_[NEW_KEY_ID].p8 private_keys/AuthKey_[NEW_KEY_ID].p8
+
+# Atualize as configurações com o novo Key ID
 ```
 
-### 2. Acessar App Store Connect
-- URL: https://appstoreconnect.apple.com
-- Login → Users and Access → Keys
+### 5. Configurar Variáveis de Ambiente
+- **Issuer ID**: Copie da página App Store Connect
+- **Key ID**: Use o ID gerado (ex: 5D79LKKR26)
+- **Team ID**: Seu Team ID de desenvolvedor
 
-### 3. Configurar Chave
-- Clique em "+" para nova chave OU
-- Clique na chave existente (5D79LKKR26)
-
-### 4. Upload do Arquivo
-- Faça upload de: `private_keys/AuthKey_5D79LKKR26.p8`
-- Confirme o Key ID: 5D79LKKR26
-
-### 5. Configurar Permissões
-- **Access**: App Manager
-- **Apps**: Selecione "PsiqueiaApp" ou "All Apps"
-
-### 6. Copiar Informações
-- **Issuer ID**: Copie da página (formato: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
-- **Key ID**: 5D79LKKR26 (já configurado)
+### 6. Validar Formato da Chave
+O arquivo deve ter este formato:
+```
+-----BEGIN PRIVATE KEY-----
+[conteúdo da chave privada em base64]
+-----END PRIVATE KEY-----
+```
 
 ## ⚠️ IMPORTANTE
 

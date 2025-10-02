@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 interface GradientCardProps {
   children: React.ReactNode;
   style?: ViewStyle;
-  colors?: string[];
+  colors?: readonly [string, string, ...string[]];
 }
 
 export default function GradientCard({ 

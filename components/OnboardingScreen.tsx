@@ -36,7 +36,7 @@ interface SlideData {
   description: string;
   color: string;
   icon: string;
-  gradient: string[];
+  gradient: readonly [string, string, ...string[]];
 }
 
 export default function OnboardingScreen({ userType, onComplete }: OnboardingScreenProps) {
@@ -261,12 +261,12 @@ export default function OnboardingScreen({ userType, onComplete }: OnboardingScr
     }));
 
     const positions = [
-      { top: '15%', left: '10%' },
-      { top: '25%', right: '15%' },
-      { top: '65%', left: '8%' },
-      { top: '55%', right: '12%' },
-      { top: '45%', left: '85%' },
-      { top: '75%', right: '80%' },
+      { top: 60, left: 40 },
+      { top: 100, right: 60 },
+      { top: 260, left: 32 },
+      { top: 220, right: 48 },
+      { top: 180, left: 340 },
+      { top: 300, right: 320 },
     ];
 
     return (
