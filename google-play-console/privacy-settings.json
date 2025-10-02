@@ -1,0 +1,32 @@
+{
+  "dataCollection": {
+    "collectsPersonalData": false,
+    "collectsLocationData": false,
+    "collectsDeviceData": false,
+    "collectsUsageData": false,
+    "collectsHealthData": true,
+    "collectsFinancialData": false,
+    "collectsContactsData": false,
+    "collectsPhotosData": false,
+    "collectsAudioData": false,
+    "collectsFilesData": false,
+    "collectsCalendarData": false,
+    "collectsMessagesData": false
+  },
+  "dataSharing": {
+    "sharesDataWithThirdParties": false,
+    "sharesDataForAdvertising": false,
+    "sharesDataForAnalytics": false,
+    "sharesDataForFunctionality": false
+  },
+  "dataRetention": {
+    "retentionPolicy": "Data is stored locally on device only",
+    "deletionProcess": "Data is deleted when app is uninstalled"
+  },
+  "securityMeasures": {
+    "dataEncryption": true,
+    "secureTransmission": false,
+    "accessControls": true,
+    "regularSecurityUpdates": true
+  }
+}

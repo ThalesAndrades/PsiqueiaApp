@@ -1,0 +1,15 @@
+🎉 Primeira versão do PsiqueiaApp!
+
+✨ Novidades desta versão:
+• Interface intuitiva para monitoramento de saúde mental
+• Integração completa com HealthKit
+• Sistema de privacidade total
+• Relatórios detalhados de progresso
+• Configurações personalizáveis
+
+🔒 Privacidade garantida:
+• Nenhum dado é coletado
+• Informações ficam apenas no seu dispositivo
+• Sem anúncios ou rastreamento
+
+Comece sua jornada de bem-estar mental hoje!

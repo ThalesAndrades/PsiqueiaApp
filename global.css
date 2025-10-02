@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom utilities for React Native */
+.text-shadow {
+  text-shadow-color: rgba(0, 0, 0, 0.75);
+  text-shadow-offset: 1px 1px;
+  text-shadow-radius: 2px;
+}
+
+.elevation-1 {
+  elevation: 1;
+  shadow-color: #000;
+  shadow-offset: 0px 1px;
+  shadow-opacity: 0.22;
+  shadow-radius: 2.22px;
+}
+
+.elevation-2 {
+  elevation: 2;
+  shadow-color: #000;
+  shadow-offset: 0px 1px;
+  shadow-opacity: 0.25;
+  shadow-radius: 3.84px;
+}
+
+.elevation-3 {
+  elevation: 3;
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.27;
+  shadow-radius: 4.65px;
+}

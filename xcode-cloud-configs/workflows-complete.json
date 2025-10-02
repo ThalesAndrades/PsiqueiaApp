@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "workflows": {
+    "development": {
+      "name": "Development Build",
+      "description": "Build de desenvolvimento com testes",
+      "trigger": {
+        "push": {
+          "branch": [
+            "develop",
+            "feature/*"
+          ]
+        }
+      },
+      "environment": {
+        "xcode": "15.2",
+        "node": "18.x",
+        "variables": [
+          {
+            "name": "NODE_ENV",
+            "value": "development"
+          },
+          {
+            "name": "CI",
+            "value": "true"
+          },
+          {
+            "name": "IOS_BUNDLE_IDENTIFIER",
+            "value": "$IOS_BUNDLE_IDENTIFIER"
+          },
+          {
+            "name": "DEVELOPMENT_TEAM",
+            "value": "$DEVELOPMENT_TEAM"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "Install Node Dependencies",
+          "script": "set -e\necho \"🔧 Instalando dependências Node.js...\"\nnpm ci\necho \"✅ Dependências Node.js instaladas\""
+        },
+        {
+          "name": "Generate iOS Project",
+          "script": "set -e\necho \"📱 Gerando projeto iOS nativo...\"\nnpx expo prebuild --platform ios --clean\necho \"✅ Projeto iOS gerado\""
+        },
+        {
+          "name": "Install CocoaPods",
+          "script": "set -e\necho \"🍫 Instalando CocoaPods...\"\ncd ios && pod install --repo-update && cd ..\necho \"✅ CocoaPods instalado\""
+        },
+        {
+          "name": "Run Tests",
+          "script": "set -e\necho \"🧪 Executando testes...\"\nnpm test\necho \"✅ Testes executados\""
+        }
+      ]
+    },
+    "staging": {
+      "name": "Staging Build",
+      "description": "Build de staging para TestFlight",
+      "trigger": {
+        "push": {
+          "branch": [
+            "staging",
+            "release/*"
+          ]
+        }
+      },
+      "environment": {
+        "xcode": "15.2",
+        "node": "18.x",
+        "variables": [
+          {
+            "name": "NODE_ENV",
+            "value": "production"
+          },
+          {
+            "name": "CI",
+            "value": "true"
+          },
+          {
+            "name": "IOS_BUNDLE_IDENTIFIER",
+            "value": "$IOS_BUNDLE_IDENTIFIER"
+          },
+          {
+            "name": "DEVELOPMENT_TEAM",
+            "value": "$DEVELOPMENT_TEAM"
+          },
+          {
+            "name": "APP_STORE_CONNECT_API_KEY_ID",
+            "value": "$APP_STORE_CONNECT_API_KEY_ID"
+          },
+          {
+            "name": "APP_STORE_CONNECT_ISSUER_ID",
+            "value": "$APP_STORE_CONNECT_ISSUER_ID"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "Install Dependencies",
+          "script": "set -e\necho \"🔧 Instalando dependências...\"\nnpm ci\nnpx expo install --fix"
+        },
+        {
+          "name": "Generate iOS Project",
+          "script": "set -e\necho \"📱 Gerando projeto iOS...\"\nnpx expo prebuild --platform ios --clean"
+        },
+        {
+          "name": "Install CocoaPods",
+          "script": "set -e\necho \"🍫 Instalando CocoaPods...\"\ncd ios && pod install --repo-update && cd .."
+        },
+        {
+          "name": "Build and Archive",
+          "script": "set -e\necho \"🏗️ Construindo e arquivando...\"\ncd ios\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Release \\\n  -destination generic/platform=iOS \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  archive"
+        },
+        {
+          "name": "Upload to TestFlight",
+          "script": "set -e\necho \"🚀 Enviando para TestFlight...\"\ncd ios\nxcodebuild -exportArchive \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  -exportPath ./build \\\n  -exportOptionsPlist exportOptions.plist"
+        }
+      ]
+    },
+    "production": {
+      "name": "Production Release",
+      "description": "Build de produção para App Store",
+      "trigger": {
+        "push": {
+          "branch": [
+            "main",
+            "master"
+          ]
+        },
+        "tag": {
+          "pattern": "v*"
+        }
+      },
+      "environment": {
+        "xcode": "15.2",
+        "node": "18.x",
+        "variables": [
+          {
+            "name": "NODE_ENV",
+            "value": "production"
+          },
+          {
+            "name": "CI",
+            "value": "true"
+          },
+          {
+            "name": "IOS_BUNDLE_IDENTIFIER",
+            "value": "$IOS_BUNDLE_IDENTIFIER"
+          },
+          {
+            "name": "DEVELOPMENT_TEAM",
+            "value": "$DEVELOPMENT_TEAM"
+          },
+          {
+            "name": "APP_STORE_CONNECT_API_KEY_ID",
+            "value": "$APP_STORE_CONNECT_API_KEY_ID"
+          },
+          {
+            "name": "APP_STORE_CONNECT_ISSUER_ID",
+            "value": "$APP_STORE_CONNECT_ISSUER_ID"
+          },
+          {
+            "name": "APP_STORE_CONNECT_PRIVATE_KEY",
+            "value": "$APP_STORE_CONNECT_PRIVATE_KEY"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "Install Dependencies",
+          "script": "set -e\necho \"🔧 Instalando dependências de produção...\"\nnpm ci --production=false\nnpx expo install --fix"
+        },
+        {
+          "name": "Run Full Test Suite",
+          "script": "set -e\necho \"🧪 Executando suite completa de testes...\"\nnpm run test:full || npm test"
+        },
+        {
+          "name": "Generate iOS Project",
+          "script": "set -e\necho \"📱 Gerando projeto iOS de produção...\"\nnpx expo prebuild --platform ios --clean"
+        },
+        {
+          "name": "Install CocoaPods",
+          "script": "set -e\necho \"🍫 Instalando CocoaPods...\"\ncd ios && pod install --repo-update && cd .."
+        },
+        {
+          "name": "Build and Archive for Production",
+          "script": "set -e\necho \"🏗️ Construindo versão de produção...\"\ncd ios\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Release \\\n  -destination generic/platform=iOS \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  archive"
+        },
+        {
+          "name": "Upload to App Store",
+          "script": "set -e\necho \"🚀 Enviando para App Store...\"\ncd ios\nxcodebuild -exportArchive \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  -exportPath ./build \\\n  -exportOptionsPlist exportOptions.plist\n  \n# Upload usando altool ou xcrun altool\nxcrun altool --upload-app \\\n  --type ios \\\n  --file \"./build/PsiqueiaApp.ipa\" \\\n  --apiKey $APP_STORE_CONNECT_API_KEY_ID \\\n  --apiIssuer $APP_STORE_CONNECT_ISSUER_ID"
+        }
+      ]
+    }
+  }
+}

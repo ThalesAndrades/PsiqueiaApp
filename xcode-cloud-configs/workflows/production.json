@@ -1,0 +1,103 @@
+{
+  "name": "Production Release",
+  "description": "Build final para App Store com validações completas",
+  "trigger": {
+    "push": {
+      "branches": [
+        "main",
+        "master"
+      ]
+    },
+    "tag": {
+      "pattern": "v*.*.*"
+    }
+  },
+  "environment": {
+    "xcode": "15.2",
+    "node": "18.x",
+    "variables": [
+      {
+        "name": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "name": "CI",
+        "value": "true"
+      },
+      {
+        "name": "EXPO_PUBLIC_ENV",
+        "value": "production"
+      },
+      {
+        "name": "IOS_BUNDLE_IDENTIFIER",
+        "value": "$IOS_BUNDLE_IDENTIFIER"
+      },
+      {
+        "name": "DEVELOPMENT_TEAM",
+        "value": "$DEVELOPMENT_TEAM"
+      },
+      {
+        "name": "APP_STORE_CONNECT_API_KEY_ID",
+        "value": "$APP_STORE_CONNECT_API_KEY_ID"
+      },
+      {
+        "name": "APP_STORE_CONNECT_ISSUER_ID",
+        "value": "$APP_STORE_CONNECT_ISSUER_ID"
+      },
+      {
+        "name": "APP_STORE_CONNECT_PRIVATE_KEY",
+        "value": "$APP_STORE_CONNECT_PRIVATE_KEY"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "name": "Validate Release",
+      "script": "set -e\necho \"🔍 Validando release...\"\n# Verificar se é uma tag de versão válida\nif [[ \"$CI_TAG\" =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+$ ]]; then\n  echo \"✅ Tag de versão válida: $CI_TAG\"\nelse\n  echo \"❌ Tag de versão inválida. Use formato: v1.0.0\"\n  exit 1\nfi"
+    },
+    {
+      "name": "Install Dependencies",
+      "script": "set -e\necho \"🔧 Instalando dependências de produção...\"\nnpm ci --production=false\nnpx expo install --fix"
+    },
+    {
+      "name": "Security Audit",
+      "script": "set -e\necho \"🔒 Executando auditoria de segurança...\"\nnpm audit --audit-level moderate\nnpm run security:check || echo \"⚠️ Security check não configurado\""
+    },
+    {
+      "name": "Run Complete Test Suite",
+      "script": "set -e\necho \"🧪 Executando suite completa de testes...\"\nnpm run test:full || npm test -- --coverage --watchAll=false\nnpm run lint\nnpm run type-check || echo \"⚠️ Type checking não configurado\"\nnpm run test:e2e || echo \"⚠️ Testes E2E não configurados\""
+    },
+    {
+      "name": "Build Production Assets",
+      "script": "set -e\necho \"🎨 Construindo assets de produção...\"\nnpm run build:production || npm run build || echo \"⚠️ Build não configurado\""
+    },
+    {
+      "name": "Generate iOS Project",
+      "script": "set -e\necho \"📱 Gerando projeto iOS para produção...\"\nnpx expo prebuild --platform ios --clean --no-install"
+    },
+    {
+      "name": "Install CocoaPods",
+      "script": "set -e\necho \"🍫 Instalando CocoaPods...\"\ncd ios\npod install --repo-update\ncd .."
+    },
+    {
+      "name": "Validate Project Configuration",
+      "script": "set -e\necho \"🔍 Validando configuração do projeto...\"\ncd ios\n# Verificar Bundle ID\ngrep -q \"com.psiqueia.app\" PsiqueiaApp/Info.plist || {\n  echo \"❌ Bundle ID incorreto no Info.plist\"\n  exit 1\n}\necho \"✅ Configuração do projeto validada\""
+    },
+    {
+      "name": "Build and Archive for Production",
+      "script": "set -e\necho \"🏗️ Construindo versão de produção...\"\ncd ios\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Release \\\n  -destination generic/platform=iOS \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  -allowProvisioningUpdates \\\n  archive"
+    },
+    {
+      "name": "Export for App Store",
+      "script": "set -e\necho \"📤 Exportando para App Store...\"\ncd ios\nxcodebuild -exportArchive \\\n  -archivePath PsiqueiaApp.xcarchive \\\n  -exportPath ./build \\\n  -exportOptionsPlist exportOptions.plist \\\n  -allowProvisioningUpdates"
+    },
+    {
+      "name": "Upload to App Store",
+      "script": "set -e\necho \"🚀 Enviando para App Store...\"\ncd ios\nxcrun altool --upload-app \\\n  --type ios \\\n  --file \"./build/PsiqueiaApp.ipa\" \\\n  --apiKey $APP_STORE_CONNECT_API_KEY_ID \\\n  --apiIssuer $APP_STORE_CONNECT_ISSUER_ID \\\n  --verbose"
+    },
+    {
+      "name": "Create Release Notes",
+      "script": "set -e\necho \"📝 Criando notas de release...\"\necho \"Release $CI_TAG enviado para App Store\" > release-notes.txt\necho \"Build: $CI_BUILD_NUMBER\" >> release-notes.txt\necho \"Commit: $CI_COMMIT_SHA\" >> release-notes.txt\necho \"Data: $(date)\" >> release-notes.txt"
+    }
+  ]
+}

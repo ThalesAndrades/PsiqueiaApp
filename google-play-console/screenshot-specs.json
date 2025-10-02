@@ -1,0 +1,26 @@
+{
+  "phone": {
+    "required": true,
+    "minCount": 2,
+    "maxCount": 8,
+    "dimensions": "1080x1920 ou 1080x2340",
+    "format": "PNG ou JPEG",
+    "maxSize": "8MB cada"
+  },
+  "tablet7inch": {
+    "required": false,
+    "minCount": 1,
+    "maxCount": 8,
+    "dimensions": "1200x1920",
+    "format": "PNG ou JPEG",
+    "maxSize": "8MB cada"
+  },
+  "tablet10inch": {
+    "required": false,
+    "minCount": 1,
+    "maxCount": 8,
+    "dimensions": "1600x2560",
+    "format": "PNG ou JPEG",
+    "maxSize": "8MB cada"
+  }
+}

@@ -1,0 +1,19 @@
+# App Store Keywords (máximo 100 caracteres)
+
+# Português (pt-BR)
+saúde mental,psicologia,bem-estar,mindfulness,meditação,humor,ansiedade,depressão,terapia,autocuidado
+
+# English (en-US)
+mental health,psychology,wellness,mindfulness,meditation,mood,anxiety,depression,therapy,self-care
+
+# Palavras-chave adicionais para consideração:
+# - psiquiatria, psychiatry
+# - emocional, emotional
+# - diário, diary
+# - medicamento, medication
+# - lembretes, reminders
+# - relatórios, reports
+# - privacidade, privacy
+# - segurança, security
+# - offline
+# - saúde, health

@@ -1,0 +1,34 @@
+🧠 PsiqueiaApp - Sua Saúde Mental em Primeiro Lugar
+
+O PsiqueiaApp é um aplicativo inovador desenvolvido para ajudar você a monitorar e cuidar da sua saúde mental de forma simples e eficaz.
+
+✨ PRINCIPAIS RECURSOS:
+• 📊 Monitoramento completo da saúde mental
+• 🔒 Privacidade total - seus dados ficam apenas no seu dispositivo
+• 📱 Interface intuitiva e fácil de usar
+• 🏥 Integração com HealthKit para dados precisos
+• 📈 Relatórios detalhados do seu progresso
+• 🎯 Acompanhamento personalizado
+
+🔐 PRIVACIDADE E SEGURANÇA:
+• Nenhum dado é coletado ou compartilhado
+• Informações armazenadas localmente no seu dispositivo
+• Sem anúncios ou rastreamento
+• Conformidade total com LGPD e GDPR
+
+💡 COMO FUNCIONA:
+1. Configure seus objetivos de saúde mental
+2. Registre seu humor e atividades diárias
+3. Acompanhe seu progresso com gráficos intuitivos
+4. Receba insights personalizados
+
+👨‍⚕️ DESENVOLVIDO POR ESPECIALISTAS:
+Criado com base em práticas clínicas reconhecidas e feedback de profissionais de saúde mental.
+
+🌟 BENEFÍCIOS:
+• Maior autoconhecimento
+• Identificação de padrões comportamentais
+• Suporte na tomada de decisões sobre saúde mental
+• Ferramenta complementar ao acompanhamento profissional
+
+Baixe agora e comece sua jornada rumo ao bem-estar mental!
