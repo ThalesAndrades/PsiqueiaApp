@@ -1,0 +1,11 @@
+{
+  "testInstructions": {
+    "pt-BR": "Instruções para Teste - PsiqueiaApp\n\nCONFIGURAÇÃO INICIAL:\n1. Instale o aplicativo\n2. Aceite as permissões de HealthKit (se disponível)\n3. Complete o setup inicial\n\nFUNCIONALIDADES PRINCIPAIS:\n1. Navegue pela interface principal\n2. Teste o registro de humor/atividades\n3. Verifique os relatórios e gráficos\n4. Teste as configurações\n\nPRIVACIDADE:\n• Verifique que nenhum dado é enviado externamente\n• Confirme que dados ficam apenas no dispositivo\n• Teste desinstalação e reinstalação\n\nNOTAS IMPORTANTES:\n• App funciona offline\n• Não requer login ou cadastro\n• Foco total em privacidade do usuário",
+    "en-US": "Test Instructions - PsiqueiaApp\n\nINITIAL SETUP:\n1. Install the application\n2. Accept HealthKit permissions (if available)\n3. Complete initial setup\n\nMAIN FEATURES:\n1. Navigate through main interface\n2. Test mood/activity logging\n3. Check reports and charts\n4. Test settings\n\nPRIVACY:\n• Verify no data is sent externally\n• Confirm data stays only on device\n• Test uninstall and reinstall\n\nIMPORTANT NOTES:\n• App works offline\n• No login or registration required\n• Total focus on user privacy"
+  },
+  "contactInfo": {
+    "email": "thalesandrades.dev@gmail.com",
+    "website": "https://github.com/ThalesAndrades/PsiqueiaApp",
+    "supportUrl": "https://github.com/ThalesAndrades/PsiqueiaApp/issues"
+  }
+}

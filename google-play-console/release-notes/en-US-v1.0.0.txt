@@ -1,0 +1,15 @@
+🎉 First version of PsiqueiaApp!
+
+✨ What's new in this version:
+• Intuitive interface for mental health monitoring
+• Complete HealthKit integration
+• Total privacy system
+• Detailed progress reports
+• Customizable settings
+
+🔒 Privacy guaranteed:
+• No data collected
+• Information stays only on your device
+• No ads or tracking
+
+Start your mental wellness journey today!

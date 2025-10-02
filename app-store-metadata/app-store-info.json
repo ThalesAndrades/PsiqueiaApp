@@ -1,0 +1,159 @@
+{
+  "app_information": {
+    "name": "PsiqueiaApp",
+    "subtitle": "Sua Saúde Mental em Primeiro Lugar",
+    "bundle_id": "com.psiqueia.app",
+    "sku": "PSIQUEIA_APP_2024",
+    "primary_language": "pt-BR",
+    "supported_languages": ["pt-BR", "en-US"],
+    "category": {
+      "primary": "Medical",
+      "secondary": "Health & Fitness"
+    },
+    "content_rating": "4+",
+    "age_rating": {
+      "rating": "4+",
+      "advisories": []
+    }
+  },
+  "app_store_information": {
+    "name": "PsiqueiaApp",
+    "subtitle": "Sua Saúde Mental em Primeiro Lugar",
+    "promotional_text": "Transforme sua jornada de bem-estar mental com tecnologia avançada e total privacidade.",
+    "description": "Ver arquivo description.txt",
+    "keywords": "saúde mental,psicologia,bem-estar,mindfulness,meditação,humor,ansiedade,depressão,terapia,autocuidado",
+    "support_url": "https://psiqueia.app/support",
+    "marketing_url": "https://psiqueia.app",
+    "privacy_policy_url": "https://psiqueia.app/privacy"
+  },
+  "pricing_and_availability": {
+    "price_tier": "Free",
+    "availability": {
+      "all_territories": true,
+      "release_date": "Manual Release"
+    }
+  },
+  "app_review_information": {
+    "contact_information": {
+      "first_name": "Thales",
+      "last_name": "Developer",
+      "phone_number": "+55 11 99999-9999",
+      "email": "developer@psiqueia.app"
+    },
+    "demo_account": {
+      "required": false,
+      "username": "",
+      "password": ""
+    },
+    "notes": "Este aplicativo foca em saúde mental e bem-estar. Todas as funcionalidades relacionadas à saúde seguem as diretrizes da Apple para apps médicos. O app não fornece diagnósticos médicos, apenas ferramentas de monitoramento e bem-estar."
+  },
+  "version_information": {
+    "version_number": "1.0.0",
+    "build_number": "1",
+    "copyright": "© 2024 PsiqueiaApp. Todos os direitos reservados.",
+    "whats_new": "Primeira versão do PsiqueiaApp! Recursos incluem: monitoramento de humor, exercícios de mindfulness, diário emocional, lembretes de medicamentos e muito mais."
+  },
+  "app_privacy": {
+    "privacy_practices": {
+      "data_collection": true,
+      "data_types": [
+        {
+          "category": "Health and Fitness",
+          "data_types": ["Health", "Fitness"],
+          "linked_to_user": true,
+          "used_for_tracking": false,
+          "purposes": ["App Functionality"]
+        },
+        {
+          "category": "Contact Info",
+          "data_types": ["Name", "Email Address"],
+          "linked_to_user": true,
+          "used_for_tracking": false,
+          "purposes": ["App Functionality", "Customer Support"]
+        },
+        {
+          "category": "Identifiers",
+          "data_types": ["User ID", "Device ID"],
+          "linked_to_user": true,
+          "used_for_tracking": false,
+          "purposes": ["App Functionality", "Analytics"]
+        },
+        {
+          "category": "Usage Data",
+          "data_types": ["Product Interaction"],
+          "linked_to_user": false,
+          "used_for_tracking": false,
+          "purposes": ["Analytics", "App Functionality"]
+        }
+      ]
+    }
+  },
+  "technical_requirements": {
+    "ios_version": "13.0",
+    "device_compatibility": ["iPhone", "iPad"],
+    "languages": ["Portuguese", "English"],
+    "size_estimate": "50 MB",
+    "internet_required": false,
+    "in_app_purchases": false
+  },
+  "marketing_assets": {
+    "app_icon": {
+      "required_sizes": [
+        "1024x1024 (App Store)",
+        "180x180 (iPhone)",
+        "167x167 (iPad Pro)",
+        "152x152 (iPad)",
+        "120x120 (iPhone)",
+        "87x87 (iPhone)",
+        "80x80 (iPad)",
+        "76x76 (iPad)",
+        "60x60 (iPhone)",
+        "58x58 (iPhone)",
+        "40x40 (iPad)",
+        "29x29 (iPhone/iPad)",
+        "20x20 (iPhone/iPad)"
+      ]
+    },
+    "screenshots": {
+      "iphone_6_7": {
+        "required": true,
+        "dimensions": "1290x2796",
+        "count": "3-10"
+      },
+      "iphone_5_5": {
+        "required": true,
+        "dimensions": "1242x2208",
+        "count": "3-10"
+      },
+      "ipad_pro_3rd_gen": {
+        "required": false,
+        "dimensions": "2048x2732",
+        "count": "3-10"
+      },
+      "ipad_pro_2nd_gen": {
+        "required": false,
+        "dimensions": "2048x2732",
+        "count": "3-10"
+      }
+    },
+    "app_preview_videos": {
+      "optional": true,
+      "max_duration": "30 seconds",
+      "formats": ["M4V", "MOV", "MP4"]
+    }
+  },
+  "compliance": {
+    "export_compliance": {
+      "uses_encryption": false,
+      "encryption_exempt": true
+    },
+    "content_rights": {
+      "third_party_content": false,
+      "rights_cleared": true
+    },
+    "advertising_identifier": {
+      "uses_idfa": false,
+      "serves_ads": false
+    }
+  }
+}

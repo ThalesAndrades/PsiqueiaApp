@@ -1,0 +1,34 @@
+🧠 PsiqueiaApp - Your Mental Health First
+
+PsiqueiaApp is an innovative application developed to help you monitor and care for your mental health in a simple and effective way.
+
+✨ KEY FEATURES:
+• 📊 Complete mental health monitoring
+• 🔒 Total privacy - your data stays only on your device
+• 📱 Intuitive and easy-to-use interface
+• 🏥 HealthKit integration for accurate data
+• 📈 Detailed progress reports
+• 🎯 Personalized tracking
+
+🔐 PRIVACY & SECURITY:
+• No data collected or shared
+• Information stored locally on your device
+• No ads or tracking
+• Full LGPD and GDPR compliance
+
+💡 HOW IT WORKS:
+1. Set your mental health goals
+2. Log your daily mood and activities
+3. Track your progress with intuitive charts
+4. Receive personalized insights
+
+👨‍⚕️ DEVELOPED BY EXPERTS:
+Created based on recognized clinical practices and feedback from mental health professionals.
+
+🌟 BENEFITS:
+• Greater self-awareness
+• Identification of behavioral patterns
+• Support in mental health decision-making
+• Complementary tool to professional monitoring
+
+Download now and start your journey to mental wellness!

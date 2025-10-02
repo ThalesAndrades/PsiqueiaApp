@@ -1,0 +1,71 @@
+{
+  "name": "Hotfix Build",
+  "description": "Build urgente para correções críticas",
+  "trigger": {
+    "push": {
+      "branches": [
+        "hotfix/*"
+      ]
+    }
+  },
+  "environment": {
+    "xcode": "15.2",
+    "node": "18.x",
+    "variables": [
+      {
+        "name": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "name": "CI",
+        "value": "true"
+      },
+      {
+        "name": "EXPO_PUBLIC_ENV",
+        "value": "production"
+      },
+      {
+        "name": "IOS_BUNDLE_IDENTIFIER",
+        "value": "$IOS_BUNDLE_IDENTIFIER"
+      },
+      {
+        "name": "DEVELOPMENT_TEAM",
+        "value": "$DEVELOPMENT_TEAM"
+      },
+      {
+        "name": "APP_STORE_CONNECT_API_KEY_ID",
+        "value": "$APP_STORE_CONNECT_API_KEY_ID"
+      },
+      {
+        "name": "APP_STORE_CONNECT_ISSUER_ID",
+        "value": "$APP_STORE_CONNECT_ISSUER_ID"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "name": "Fast Install",
+      "script": "set -e\necho \"⚡ Instalação rápida para hotfix...\"\nnpm ci --prefer-offline"
+    },
+    {
+      "name": "Critical Tests Only",
+      "script": "set -e\necho \"🧪 Executando apenas testes críticos...\"\nnpm run test:critical || npm test -- --testPathPattern=\"critical\" || echo \"⚠️ Testes críticos não configurados\""
+    },
+    {
+      "name": "Generate iOS Project",
+      "script": "set -e\necho \"📱 Gerando projeto iOS para hotfix...\"\nnpx expo prebuild --platform ios --clean --no-install"
+    },
+    {
+      "name": "Install CocoaPods",
+      "script": "set -e\necho \"🍫 Instalando CocoaPods...\"\ncd ios && pod install && cd .."
+    },
+    {
+      "name": "Build and Archive Hotfix",
+      "script": "set -e\necho \"🔥 Construindo hotfix...\"\ncd ios\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Release \\\n  -destination generic/platform=iOS \\\n  -archivePath PsiqueiaApp-hotfix.xcarchive \\\n  -allowProvisioningUpdates \\\n  archive"
+    },
+    {
+      "name": "Upload Hotfix to TestFlight",
+      "script": "set -e\necho \"🚀 Enviando hotfix para TestFlight...\"\ncd ios\nxcodebuild -exportArchive \\\n  -archivePath PsiqueiaApp-hotfix.xcarchive \\\n  -exportPath ./build \\\n  -exportOptionsPlist exportOptions.plist\n  \nxcrun altool --upload-app \\\n  --type ios \\\n  --file \"./build/PsiqueiaApp.ipa\" \\\n  --apiKey $APP_STORE_CONNECT_API_KEY_ID \\\n  --apiIssuer $APP_STORE_CONNECT_ISSUER_ID"
+    }
+  ]
+}

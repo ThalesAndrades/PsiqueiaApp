@@ -1,0 +1,29 @@
+{
+  "APP_STORE_CONNECT_API_KEY_ID": {
+    "value": "5D79LKKR26",
+    "description": "ID da chave API do App Store Connect",
+    "required": true,
+    "secret": false
+  },
+  "APP_STORE_CONNECT_ISSUER_ID": {
+    "value": "[SUBSTITUIR_PELO_SEU_ISSUER_ID]",
+    "description": "Issuer ID da sua conta do App Store Connect",
+    "required": true,
+    "secret": false,
+    "instructions": "Encontre em App Store Connect > Users and Access > Keys"
+  },
+  "DEVELOPMENT_TEAM": {
+    "value": "[SUBSTITUIR_PELO_SEU_TEAM_ID]",
+    "description": "Team ID do Apple Developer Program",
+    "required": true,
+    "secret": false,
+    "instructions": "Encontre em Apple Developer Portal > Membership"
+  },
+  "EXPO_TOKEN": {
+    "value": "[OPCIONAL_EXPO_TOKEN]",
+    "description": "Token do Expo para builds automatizados",
+    "required": false,
+    "secret": true,
+    "instructions": "Gere em https://expo.dev/accounts/[username]/settings/access-tokens"
+  }
+}

@@ -1,0 +1,203 @@
+version: 1
+
+workflows:
+  development:
+    name: "Development Build"
+    description: "Build rápido para desenvolvimento com testes básicos"
+    trigger:
+      push:
+        branch:
+          - develop
+          - feature/*
+          - bugfix/*
+      pull_request:
+        branch:
+          - develop
+    environment:
+      xcode: "15.2"
+      node: "18.x"
+      variables:
+        - name: NODE_ENV
+          value: development
+        - name: CI
+          value: "true"
+        - name: EXPO_PUBLIC_ENV
+          value: development
+    steps:
+      - name: Install Dependencies
+        script: |
+          set -e
+          echo "🔧 Instalando dependências..."
+          npm ci
+          npx expo install --fix
+      - name: Run Tests
+        script: |
+          set -e
+          echo "🧪 Executando testes..."
+          npm test -- --coverage --watchAll=false
+      - name: Generate iOS Project
+        script: |
+          set -e
+          echo "📱 Gerando projeto iOS..."
+          npx expo prebuild --platform ios --clean --no-install
+      - name: Install CocoaPods
+        script: |
+          set -e
+          echo "🍫 Instalando CocoaPods..."
+          cd ios && pod install && cd ..
+
+  staging:
+    name: "Staging Build"
+    description: "Build para TestFlight com testes completos"
+    trigger:
+      push:
+        branch:
+          - staging
+          - release/*
+    environment:
+      xcode: "15.2"
+      node: "18.x"
+      variables:
+        - name: NODE_ENV
+          value: production
+        - name: CI
+          value: "true"
+        - name: EXPO_PUBLIC_ENV
+          value: staging
+        - name: IOS_BUNDLE_IDENTIFIER
+          value: $IOS_BUNDLE_IDENTIFIER
+        - name: DEVELOPMENT_TEAM
+          value: $DEVELOPMENT_TEAM
+        - name: APP_STORE_CONNECT_API_KEY_ID
+          value: $APP_STORE_CONNECT_API_KEY_ID
+        - name: APP_STORE_CONNECT_ISSUER_ID
+          value: $APP_STORE_CONNECT_ISSUER_ID
+    steps:
+      - name: Install Dependencies
+        script: |
+          set -e
+          echo "🔧 Instalando dependências..."
+          npm ci
+          npx expo install --fix
+      - name: Run Tests
+        script: |
+          set -e
+          echo "🧪 Executando testes..."
+          npm test -- --coverage --watchAll=false
+          npm run lint
+      - name: Generate iOS Project
+        script: |
+          set -e
+          echo "📱 Gerando projeto iOS..."
+          npx expo prebuild --platform ios --clean --no-install
+      - name: Install CocoaPods
+        script: |
+          set -e
+          echo "🍫 Instalando CocoaPods..."
+          cd ios && pod install --repo-update && cd ..
+      - name: Build and Archive
+        script: |
+          set -e
+          echo "🏗️ Construindo e arquivando..."
+          cd ios
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+            -scheme PsiqueiaApp \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            -archivePath PsiqueiaApp.xcarchive \
+            -allowProvisioningUpdates \
+            archive
+      - name: Upload to TestFlight
+        script: |
+          set -e
+          echo "🚀 Enviando para TestFlight..."
+          cd ios
+          xcodebuild -exportArchive \
+            -archivePath PsiqueiaApp.xcarchive \
+            -exportPath ./build \
+            -exportOptionsPlist exportOptions.plist
+          xcrun altool --upload-app \
+            --type ios \
+            --file "./build/PsiqueiaApp.ipa" \
+            --apiKey $APP_STORE_CONNECT_API_KEY_ID \
+            --apiIssuer $APP_STORE_CONNECT_ISSUER_ID
+
+  production:
+    name: "Production Release"
+    description: "Build final para App Store"
+    trigger:
+      push:
+        branch:
+          - main
+          - master
+      tag:
+        pattern: "v*.*.*"
+    environment:
+      xcode: "15.2"
+      node: "18.x"
+      variables:
+        - name: NODE_ENV
+          value: production
+        - name: CI
+          value: "true"
+        - name: EXPO_PUBLIC_ENV
+          value: production
+        - name: IOS_BUNDLE_IDENTIFIER
+          value: $IOS_BUNDLE_IDENTIFIER
+        - name: DEVELOPMENT_TEAM
+          value: $DEVELOPMENT_TEAM
+        - name: APP_STORE_CONNECT_API_KEY_ID
+          value: $APP_STORE_CONNECT_API_KEY_ID
+        - name: APP_STORE_CONNECT_ISSUER_ID
+          value: $APP_STORE_CONNECT_ISSUER_ID
+        - name: APP_STORE_CONNECT_PRIVATE_KEY
+          value: $APP_STORE_CONNECT_PRIVATE_KEY
+    steps:
+      - name: Install Dependencies
+        script: |
+          set -e
+          echo "🔧 Instalando dependências de produção..."
+          npm ci --production=false
+          npx expo install --fix
+      - name: Run Full Test Suite
+        script: |
+          set -e
+          echo "🧪 Executando suite completa de testes..."
+          npm test -- --coverage --watchAll=false
+          npm run lint
+      - name: Generate iOS Project
+        script: |
+          set -e
+          echo "📱 Gerando projeto iOS de produção..."
+          npx expo prebuild --platform ios --clean --no-install
+      - name: Install CocoaPods
+        script: |
+          set -e
+          echo "🍫 Instalando CocoaPods..."
+          cd ios && pod install --repo-update && cd ..
+      - name: Build and Archive for Production
+        script: |
+          set -e
+          echo "🏗️ Construindo versão de produção..."
+          cd ios
+          xcodebuild -workspace ios/PsiqueiaApp.xcworkspace \
+            -scheme PsiqueiaApp \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            -archivePath PsiqueiaApp.xcarchive \
+            -allowProvisioningUpdates \
+            archive
+      - name: Upload to App Store
+        script: |
+          set -e
+          echo "🚀 Enviando para App Store..."
+          cd ios
+          xcodebuild -exportArchive \
+            -archivePath PsiqueiaApp.xcarchive \
+            -exportPath ./build \
+            -exportOptionsPlist exportOptions.plist
+          xcrun altool --upload-app \
+            --type ios \
+            --file "./build/PsiqueiaApp.ipa" \
+            --apiKey $APP_STORE_CONNECT_API_KEY_ID \
+            --apiIssuer $APP_STORE_CONNECT_ISSUER_ID

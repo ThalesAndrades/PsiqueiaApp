@@ -1,0 +1,62 @@
+{
+  "apiKey": {
+    "keyId": "5D79LKKR26",
+    "issuerId": "your_issuer_id",
+    "privateKeyPath": "./private_keys/AuthKey_5D79LKKR26.p8"
+  },
+  "appInfo": {
+    "bundleId": "com.psiqueia.app",
+    "appName": "PsiqueiaApp",
+    "teamId": "YOUR_TEAM_ID"
+  },
+  "buildConfiguration": {
+    "scheme": "PsiqueiaApp",
+    "codeSigningStyle": "Automatic",
+    "developmentTeam": "YOUR_TEAM_ID"
+  },
+  "workflows": {
+    "development": {
+      "name": "Development Build",
+      "trigger": ["pull_request", "push_to_develop"],
+      "actions": ["build", "test"],
+      "environment": "development"
+    },
+    "production": {
+      "name": "Production Build",
+      "trigger": ["tag", "push_to_main"],
+      "actions": ["build", "test", "archive", "upload_to_app_store"],
+      "environment": "production"
+    }
+  },
+  "notifications": {
+    "slack": {
+      "enabled": false,
+      "webhookUrl": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK"
+    },
+    "email": {
+      "enabled": false,
+      "recipients": ["dev@psiqueia.com"]
+    }
+  },
+  "setup": {
+    "instructions": [
+      "1. Gere uma chave API no App Store Connect",
+      "2. Baixe o arquivo .p8 e coloque em private_keys/",
+      "3. Configure o issuerId e teamId",
+      "4. Execute: npm run xcode-cloud:setup"
+    ],
+    "requiredEnvironmentVariables": [
+      "APP_STORE_CONNECT_API_KEY_ID",
+      "APP_STORE_CONNECT_ISSUER_ID",
+      "APP_STORE_CONNECT_PRIVATE_KEY_PATH",
+      "IOS_DEVELOPMENT_TEAM"
+    ]
+  },
+  "security": {
+    "notes": [
+      "Nunca commite a chave privada (.p8) no repositório",
+      "Use variáveis de ambiente para informações sensíveis",
+      "Mantenha backup seguro das chaves API"
+    ]
+  }
+}

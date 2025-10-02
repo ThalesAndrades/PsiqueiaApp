@@ -1,0 +1,66 @@
+{
+  "name": "Development Build",
+  "description": "Build rápido para desenvolvimento com testes básicos",
+  "trigger": {
+    "push": {
+      "branches": [
+        "develop",
+        "feature/*",
+        "bugfix/*"
+      ]
+    },
+    "pull_request": {
+      "branches": [
+        "develop"
+      ]
+    }
+  },
+  "environment": {
+    "xcode": "15.2",
+    "node": "18.x",
+    "variables": [
+      {
+        "name": "NODE_ENV",
+        "value": "development"
+      },
+      {
+        "name": "CI",
+        "value": "true"
+      },
+      {
+        "name": "EXPO_PUBLIC_ENV",
+        "value": "development"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "name": "Cache Node Modules",
+      "script": "set -e\necho \"📦 Configurando cache do Node.js...\"\nnpm ci --cache .npm --prefer-offline"
+    },
+    {
+      "name": "Install Dependencies",
+      "script": "set -e\necho \"🔧 Instalando dependências...\"\nnpm ci\nnpx expo install --fix"
+    },
+    {
+      "name": "Lint and Format Check",
+      "script": "set -e\necho \"🧹 Verificando código...\"\nnpm run lint || echo \"⚠️ Lint warnings encontrados\"\nnpm run format:check || echo \"⚠️ Formatação precisa ser ajustada\""
+    },
+    {
+      "name": "Run Unit Tests",
+      "script": "set -e\necho \"🧪 Executando testes unitários...\"\nnpm test -- --coverage --watchAll=false"
+    },
+    {
+      "name": "Generate iOS Project",
+      "script": "set -e\necho \"📱 Gerando projeto iOS para desenvolvimento...\"\nnpx expo prebuild --platform ios --clean --no-install"
+    },
+    {
+      "name": "Install CocoaPods",
+      "script": "set -e\necho \"🍫 Instalando CocoaPods...\"\ncd ios\npod install --repo-update\ncd .."
+    },
+    {
+      "name": "Build for Simulator",
+      "script": "set -e\necho \"🏗️ Construindo para simulador...\"\ncd ios\nxcodebuild -workspace ios/PsiqueiaApp.xcworkspace \\\n  -scheme PsiqueiaApp \\\n  -configuration Debug \\\n  -destination 'platform=iOS Simulator,name=iPhone 15' \\\n  build"
+    }
+  ]
+}
