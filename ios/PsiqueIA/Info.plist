@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CADisableMinimumFrameDurationOnPhone</key>
+    <true/>
+    <key>CFBundleAllowMixedLocalizations</key>
+    <true/>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleDisplayName</key>
+    <string>PsiqueIA</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>psiquia</string>
+          <string>com.thalesdev.psiqueiaapp</string>
+        </array>
+      </dict>
+    </array>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <false/>
+      <key>NSAllowsLocalNetworking</key>
+      <true/>
+    </dict>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Este aplicativo pode acessar o calendário para agendar sessões.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Este app precisa acessar a câmera para capturar fotos e documentos.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>Este aplicativo pode acessar contatos para funcionalidades de compartilhamento.</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>Use Face ID para autenticação rápida e segura.</string>
+    <key>NSHealthShareUsageDescription</key>
+    <string>Este aplicativo pode acessar dados de saúde para melhor acompanhamento.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Este aplicativo pode atualizar dados de saúde com informações de humor.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Este app precisa acessar sua localização para funcionalidades baseadas em localização.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to access your location</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Este aplicativo pode usar sua localização para fornecer recursos baseados em localização.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Este aplicativo precisa acessar o microfone para gravar áudios para o diário de humor.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Este aplicativo precisa salvar fotos na galeria.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Este app precisa acessar a galeria de fotos para selecionar imagens.</string>
+    <key>NSRemindersUsageDescription</key>
+    <string>Este aplicativo pode criar lembretes para suas sessões.</string>
+    <key>NSUserActivityTypes</key>
+    <array>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+    </array>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Este aplicativo usa dados para personalizar sua experiência e melhorar nossos serviços.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>background-processing</string>
+      <string>background-fetch</string>
+    </array>
+    <key>UILaunchStoryboardName</key>
+    <string>SplashScreen</string>
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+      <string>arm64</string>
+    </array>
+    <key>UIRequiresFullScreen</key>
+    <false/>
+    <key>UIStatusBarStyle</key>
+    <string>UIStatusBarStyleDefault</string>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+      <string>UIInterfaceOrientationLandscapeLeft</string>
+      <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UIUserInterfaceStyle</key>
+    <string>Automatic</string>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+  </dict>
+</plist>

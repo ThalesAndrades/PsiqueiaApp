@@ -29,11 +29,27 @@ npm run xcode         # Abre o projeto no Xcode
 
 ## Xcode Cloud Setup
 
-Este projeto está configurado para funcionar com o Xcode Cloud. Para mais informações sobre como habilitar e configurar o Xcode Cloud, consulte [XCODE_CLOUD_SETUP.md](./XCODE_CLOUD_SETUP.md).
+Este projeto está **completamente configurado** para funcionar com o Xcode Cloud. 
 
-### Shared Schemes
+### ✅ Status: Pronto para Build
 
-O projeto usa a scheme **PsiqueiaApp** que está configurada como compartilhada (shared) e versionada no Git para permitir builds no Xcode Cloud.
+- ✅ Projeto iOS nativo gerado
+- ✅ Scheme **PsiqueIA** compartilhada e versionada
+- ✅ Configurações de build adequadas
+- ✅ Deployment target: iOS 15.1+
+
+**Para detalhes completos e instruções de como habilitar o Xcode Cloud, consulte**: 
+- **[XCODE_CLOUD_READY.md](./XCODE_CLOUD_READY.md)** - Documentação completa de configuração
+- [XCODE_CLOUD_SETUP.md](./XCODE_CLOUD_SETUP.md) - Guia detalhado de uso
+
+### Scheme Usada
+
+O projeto usa a scheme **PsiqueIA** que está configurada como compartilhada (shared) e versionada no Git em:
+```
+ios/PsiqueIA.xcodeproj/xcshareddata/xcschemes/PsiqueIA.xcscheme
+```
+
+Esta é a única scheme do projeto e será usada automaticamente pelo Xcode Cloud para builds e arquivamento.
 
 ## Main Dependencies
 

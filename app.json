@@ -14,7 +14,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.thalesdev.psiqueiaapp",
       "buildNumber": "1",
-      "deploymentTarget": "13.0",
+      "deploymentTarget": "15.1",
       "requireFullScreen": false,
       "userInterfaceStyle": "automatic",
       "infoPlist": {
@@ -125,7 +125,7 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "13.0"
+            "deploymentTarget": "15.1"
           },
           "android": {
             "compileSdkVersion": 34,
