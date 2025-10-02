@@ -36,4 +36,9 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# temporary files
+*.zip
+*.tar.gz
+*.tmp
+
 app-example
