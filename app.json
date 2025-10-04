@@ -60,7 +60,7 @@
       "versionCode": 1,
       "compileSdkVersion": 34,
       "targetSdkVersion": 34,
-      "minSdkVersion": 21,
+      "minSdkVersion": 24,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
@@ -130,7 +130,7 @@
           "android": {
             "compileSdkVersion": 34,
             "targetSdkVersion": 34,
-            "minSdkVersion": 21
+            "minSdkVersion": 24
           }
         }
       ]
@@ -139,7 +139,11 @@
       "typedRoutes": true
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "TODO: Executar 'npx eas update:configure' para obter URL"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     },
     "assetBundlePatterns": [
       "**/*"

@@ -42,3 +42,12 @@ yarn-error.*
 *.tmp
 
 app-example
+
+# Credentials and secrets
+# ATENÇÃO: NUNCA versionar arquivos de credenciais ou chaves privadas!
+credentials/
+private_keys/
+google-service-account.json
+sentry.properties
+.env
+
