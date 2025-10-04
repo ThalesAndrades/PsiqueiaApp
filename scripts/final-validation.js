@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 class AppleComplianceValidator {
     constructor() {
@@ -55,6 +56,16 @@ class AppleComplianceValidator {
             return JSON.parse(fs.readFileSync(filePath, 'utf8'));
         } catch (error) {
             this.log('ERROR', `Erro ao ler JSON ${filePath}: ${error.message}`);
+            return null;
+        }
+    }
+
+    getExpoConfig() {
+        try {
+            const output = execSync('npx expo config --type public --json', { encoding: 'utf8' });
+            return JSON.parse(output);
+        } catch (error) {
+            this.log('ERROR', `Erro ao obter configuração do Expo: ${error.message}`);
             return null;
         }
     }
@@ -293,14 +304,13 @@ class AppleComplianceValidator {
             }
         }
 
-        // Verificar se não há chaves hardcoded
-        const appJson = this.readJsonFile('app.json');
-        if (appJson) {
-            const jsonString = JSON.stringify(appJson);
-            if (jsonString.includes('sk_') || jsonString.includes('pk_') || jsonString.includes('secret')) {
-                this.log('ERROR', 'Possíveis chaves secretas encontradas no app.json', true);
+        // Verificar se não há chaves hardcoded no app.config.ts
+        if (this.fileExists('app.config.ts')) {
+            const appConfig = this.readFile('app.config.ts');
+            if (appConfig && (appConfig.includes('sk_') || appConfig.includes('pk_'))) {
+                this.log('ERROR', 'Possíveis chaves secretas encontradas no app.config.ts', true);
             } else {
-                this.log('SUCCESS', 'Nenhuma chave secreta encontrada no app.json');
+                this.log('SUCCESS', 'Nenhuma chave secreta encontrada no app.config.ts');
             }
         }
     }
