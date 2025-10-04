@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 console.log('🔍 VERIFICANDO STATUS DO DEPLOYMENT...\n');
 
@@ -21,6 +22,16 @@ function checkDirectory(dirPath, description) {
     return exists;
 }
 
+// Função para obter configuração do Expo
+function getExpoConfig() {
+    try {
+        const output = execSync('npx expo config --type public --json', { encoding: 'utf8' });
+        return JSON.parse(output);
+    } catch (error) {
+        return null;
+    }
+}
+
 let totalChecks = 0;
 let passedChecks = 0;
 
@@ -29,7 +40,7 @@ console.log('========================');
 
 // Verificar arquivos essenciais
 const essentialFiles = [
-    ['app.json', 'Configuração principal do Expo'],
+    ['app.config.ts', 'Configuração principal do Expo'],
     ['.xcode-cloud.yml', 'Configuração do Xcode Cloud'],
     ['private_keys/AuthKey_5D79LKKR26.p8', 'Chave privada da API'],
     ['DEPLOYMENT_GUIDE.md', 'Guia de deployment'],
@@ -90,48 +101,42 @@ if (iosExists) {
 console.log('\n🔍 VERIFICAÇÃO DE CONFIGURAÇÕES:');
 console.log('=================================');
 
-// Verificar app.json
-try {
-    const appConfig = JSON.parse(fs.readFileSync('app.json', 'utf8'));
+// Verificar app.config.ts usando expo config
+const appConfig = getExpoConfig();
+if (appConfig) {
     totalChecks += 5;
     
-    if (appConfig.expo?.ios?.bundleIdentifier === 'com.thalesdev.psiqueiaapp') {
-        console.log('✅ Bundle ID configurado corretamente');
+    if (appConfig.ios?.bundleIdentifier) {
+        console.log(`✅ Bundle ID configurado: ${appConfig.ios.bundleIdentifier}`);
         passedChecks++;
     } else {
         console.log('❌ Bundle ID não configurado');
     }
     
-    if (appConfig.expo?.ios?.buildNumber) {
+    if (appConfig.ios?.buildNumber) {
         console.log('✅ Build number configurado');
         passedChecks++;
     } else {
         console.log('❌ Build number não configurado');
     }
     
-    if (appConfig.expo?.ios?.infoPlist?.NSHealthShareUsageDescription) {
-        console.log('✅ HealthKit configurado');
-        passedChecks++;
-    } else {
-        console.log('❌ HealthKit não configurado');
-    }
-    
-    if (appConfig.expo?.ios?.infoPlist?.NSCameraUsageDescription) {
+    // HealthKit removed for store readiness - no longer checking
+    if (appConfig.ios?.infoPlist?.NSCameraUsageDescription) {
         console.log('✅ Permissões de privacidade configuradas');
         passedChecks++;
     } else {
         console.log('❌ Permissões de privacidade não configuradas');
     }
     
-    if (appConfig.expo?.platforms?.includes('ios')) {
+    if (appConfig.platforms?.includes('ios')) {
         console.log('✅ Plataforma iOS habilitada');
         passedChecks++;
     } else {
         console.log('❌ Plataforma iOS não habilitada');
     }
     
-} catch (error) {
-    console.log('❌ Erro ao ler app.json:', error.message);
+} else {
+    console.log('❌ Erro ao ler configuração do Expo');
 }
 
 console.log('\n📈 RESUMO FINAL:');

@@ -1,15 +1,15 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# dependencies
+# Base
 node_modules/
 
-# Expo
+# Expo / Build output
 .expo/
 dist/
 web-build/
 expo-env.d.ts
 
-# Native
+# Native / Credentials (never commit secrets)
 .kotlin/
 *.orig.*
 *.jks
@@ -17,11 +17,13 @@ expo-env.d.ts
 *.p12
 *.key
 *.mobileprovision
+private_keys/
+credentials/
 
 # Metro
-.metro-health-check*
+.metro-health-check/
 
-# debug
+# Debug logs
 npm-debug.*
 yarn-debug.*
 yarn-error.*
@@ -30,15 +32,18 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
+# Environment files (keep ONLY .env.example tracked)
+.env
+.env.*
+!.env.example
 
-# typescript
+# TypeScript build info
 *.tsbuildinfo
 
-# temporary files
+# Temp archives
 *.zip
 *.tar.gz
 *.tmp
 
+# Misc
 app-example

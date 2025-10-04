@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 console.log('🔍 Verificando estrutura do projeto PsiqueIA...\n');
 
 // Verificar arquivos essenciais
 const essentialFiles = [
   'package.json',
-  'app.json',
+  'app.config.ts',
   'tsconfig.json',
   'babel.config.js',
   'metro.config.js',
@@ -68,15 +69,16 @@ try {
   console.log('❌ Erro ao ler package.json:', error.message);
 }
 
-// Verificar app.json
+// Verificar app.config.ts via expo config
 try {
-  const appJson = JSON.parse(fs.readFileSync('app.json', 'utf8'));
+  const output = execSync('npx expo config --type public --json', { encoding: 'utf8' });
+  const appConfig = JSON.parse(output);
   console.log('\n📱 Configuração do app:');
-  console.log(`  Nome: ${appJson.expo?.name || 'Não definido'}`);
-  console.log(`  Bundle ID: ${appJson.expo?.ios?.bundleIdentifier || 'Não definido'}`);
-  console.log(`  Plugins: ${appJson.expo?.plugins?.length || 0} configurados`);
+  console.log(`  Nome: ${appConfig.name || 'Não definido'}`);
+  console.log(`  Bundle ID: ${appConfig.ios?.bundleIdentifier || 'Não definido'}`);
+  console.log(`  Plugins: ${appConfig.plugins?.length || 0} configurados`);
 } catch (error) {
-  console.log('❌ Erro ao ler app.json:', error.message);
+  console.log('❌ Erro ao ler configuração do app:', error.message);
 }
 
 console.log('\n✨ Verificação concluída!');

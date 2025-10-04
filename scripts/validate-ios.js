@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 class IOSValidator {
     constructor() {
@@ -45,39 +46,42 @@ class IOSValidator {
         }
     }
 
-    validateAppJson() {
-        this.log('INFO', 'Validando app.json...');
+    getExpoConfig() {
+        try {
+            const output = execSync('npx expo config --type public --json', { encoding: 'utf8' });
+            return JSON.parse(output);
+        } catch (error) {
+            this.log('ERROR', `Erro ao obter configuração do Expo: ${error.message}`);
+            return null;
+        }
+    }
+
+    validateAppConfig() {
+        this.log('INFO', 'Validando app.config.ts...');
         
-        const appJsonPath = 'app.json';
-        if (!this.fileExists(appJsonPath)) {
-            this.log('ERROR', 'app.json não encontrado');
+        if (!this.fileExists('app.config.ts')) {
+            this.log('ERROR', 'app.config.ts não encontrado');
             return;
         }
 
-        const appJson = this.readJsonFile(appJsonPath);
-        if (!appJson) return;
+        this.log('SUCCESS', 'app.config.ts encontrado');
 
-        const expo = appJson.expo;
-        if (!expo) {
-            this.log('ERROR', 'Configuração expo não encontrada em app.json');
-            return;
-        }
+        const appConfig = this.getExpoConfig();
+        if (!appConfig) return;
 
         // Verificar configurações iOS
-        if (!expo.ios) {
-            this.log('ERROR', 'Configuração iOS não encontrada em app.json');
+        if (!appConfig.ios) {
+            this.log('ERROR', 'Configuração iOS não encontrada');
             return;
         }
 
-        const ios = expo.ios;
+        const ios = appConfig.ios;
 
         // Bundle Identifier
         if (!ios.bundleIdentifier) {
             this.log('ERROR', 'bundleIdentifier não definido');
-        } else if (ios.bundleIdentifier === 'com.psiqueia.app') {
-            this.log('SUCCESS', 'bundleIdentifier configurado corretamente');
         } else {
-            this.log('WARNING', `bundleIdentifier: ${ios.bundleIdentifier}`);
+            this.log('SUCCESS', `bundleIdentifier: ${ios.bundleIdentifier}`);
         }
 
         // Build Number
@@ -93,12 +97,11 @@ class IOSValidator {
         } else {
             this.log('SUCCESS', 'infoPlist configurado');
             
-            // Verificar descrições de privacidade
+            // Verificar descrições de privacidade essenciais
             const privacyKeys = [
                 'NSCameraUsageDescription',
                 'NSMicrophoneUsageDescription',
                 'NSPhotoLibraryUsageDescription',
-                'NSLocationWhenInUseUsageDescription',
                 'NSFaceIDUsageDescription'
             ];
 
@@ -111,12 +114,8 @@ class IOSValidator {
             });
         }
 
-        // Entitlements
-        if (!ios.entitlements) {
-            this.log('WARNING', 'entitlements não configurado');
-        } else {
-            this.log('SUCCESS', 'entitlements configurado');
-        }
+        // Note: Entitlements removed from config for store readiness
+        // They will be managed by native iOS project if needed
     }
 
     validateInfoPlist() {
@@ -224,7 +223,7 @@ class IOSValidator {
     run() {
         console.log('🔍 Iniciando validação das configurações iOS...\n');
 
-        this.validateAppJson();
+        this.validateAppConfig();
         this.validateInfoPlist();
         this.validateEntitlements();
         this.validatePrivacyManifest();

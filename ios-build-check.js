@@ -1,45 +1,51 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 console.log('🍎 Verificação de Compatibilidade iOS - PsiqueIA\n');
+
+// Função para obter configuração do Expo
+function getExpoConfig() {
+  try {
+    const output = execSync('npx expo config --type public --json', { encoding: 'utf8' });
+    return JSON.parse(output);
+  } catch (error) {
+    return null;
+  }
+}
 
 // Verificar configurações iOS específicas
 function checkiOSConfig() {
   console.log('📱 Configurações iOS:');
   
-  try {
-    const appJson = JSON.parse(fs.readFileSync('app.json', 'utf8'));
-    const ios = appJson.expo?.ios;
-    
-    if (!ios) {
-      console.log('  ❌ Configurações iOS não encontradas');
-      return false;
-    }
-    
-    console.log(`  ✅ Bundle ID: ${ios.bundleIdentifier || 'Não definido'}`);
-    console.log(`  ✅ Suporte a Tablet: ${ios.supportsTablet ? 'Sim' : 'Não'}`);
-    console.log(`  ✅ Build Number: ${ios.buildNumber || 'Não definido'}`);
-    
-    // Verificar permissões
-    const permissions = ios.infoPlist || {};
-    const requiredPermissions = [
-      'NSCameraUsageDescription',
-      'NSMicrophoneUsageDescription',
-      'NSPhotoLibraryUsageDescription',
-      'NSFaceIDUsageDescription'
-    ];
-    
-    console.log('\n  🔐 Permissões iOS:');
-    requiredPermissions.forEach(perm => {
-      const exists = permissions[perm];
-      console.log(`    ${exists ? '✅' : '❌'} ${perm}`);
-    });
-    
-    return true;
-  } catch (error) {
-    console.log('  ❌ Erro ao verificar configurações iOS:', error.message);
+  const appConfig = getExpoConfig();
+  if (!appConfig || !appConfig.ios) {
+    console.log('  ❌ Configurações iOS não encontradas');
     return false;
   }
+
+  const ios = appConfig.ios;
+  
+  console.log(`  ✅ Bundle ID: ${ios.bundleIdentifier || 'Não definido'}`);
+  console.log(`  ✅ Suporte a Tablet: ${ios.supportsTablet ? 'Sim' : 'Não'}`);
+  console.log(`  ✅ Build Number: ${ios.buildNumber || 'Não definido'}`);
+  
+  // Verificar permissões
+  const permissions = ios.infoPlist || {};
+  const requiredPermissions = [
+    'NSCameraUsageDescription',
+    'NSMicrophoneUsageDescription',
+    'NSPhotoLibraryUsageDescription',
+    'NSFaceIDUsageDescription'
+  ];
+  
+  console.log('\n  🔐 Permissões iOS:');
+  requiredPermissions.forEach(perm => {
+    const exists = permissions[perm];
+    console.log(`    ${exists ? '✅' : '❌'} ${perm}`);
+  });
+  
+  return true;
 }
 
 // Verificar dependências críticas para iOS
