@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "privacy": "public",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.thalesdev.psiqueiaapp",
@@ -32,9 +36,16 @@
         "NSUserTrackingUsageDescription": "Este aplicativo usa dados para personalizar sua experiência e melhorar nossos serviços.",
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleAllowMixedLocalizations": true,
-        "UIBackgroundModes": ["background-processing", "background-fetch"],
-        "UIRequiredDeviceCapabilities": ["arm64"],
-        "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
+        "UIBackgroundModes": [
+          "background-processing",
+          "background-fetch"
+        ],
+        "UIRequiredDeviceCapabilities": [
+          "arm64"
+        ],
+        "UISupportedInterfaceOrientations": [
+          "UIInterfaceOrientationPortrait"
+        ],
         "UISupportedInterfaceOrientations~ipad": [
           "UIInterfaceOrientationPortrait",
           "UIInterfaceOrientationPortraitUpsideDown",
@@ -45,10 +56,14 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "associatedDomains": ["applinks:psiqueia.app"],
+      "associatedDomains": [
+        "applinks:psiqueia.app"
+      ],
       "entitlements": {
         "com.apple.developer.healthkit": true,
-        "com.apple.developer.healthkit.access": ["health-records"]
+        "com.apple.developer.healthkit.access": [
+          "health-records"
+        ]
       }
     },
     "android": {
@@ -143,6 +158,10 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "router": {}
+    },
+    "owner": "thales-andrades"
   }
 }
