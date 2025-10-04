@@ -10,7 +10,25 @@ Um aplicativo iOS desenvolvido com React Native e Expo para gerenciamento de sa�
 npm install
 ```
 
-### 2. Start the Project
+### 2. Configure Environment Variables
+
+Copy `.env.example` to `.env` and configure the necessary values:
+
+```bash
+cp .env.example .env
+```
+
+**Required Secrets:**
+- `EXPO_TOKEN`: Token do Expo para builds automatizados ([obter aqui](https://expo.dev/accounts/[username]/settings/access-tokens))
+- `SENTRY_DSN`: DSN do Sentry para monitoramento de erros (opcional, mas recomendado para produção)
+- `FCM_SERVER_KEY` e `FCM_SENDER_ID`: Chaves do Firebase Cloud Messaging para push notifications (necessário para notificações)
+
+**GitHub Secrets (para CI/CD):**
+
+Configure os seguintes secrets no repositório GitHub (Settings → Secrets and variables → Actions):
+- `EXPO_TOKEN`: Para builds automatizados no GitHub Actions
+
+### 3. Start the Project
 
 ```bash
 npm run start         # Start Expo development server
@@ -18,7 +36,7 @@ npm run ios           # Launch iOS simulator
 npm run web           # Start the web version
 ```
 
-### 3. Build for iOS
+### 4. Build for iOS
 
 Para gerar o projeto nativo iOS e abrir no Xcode:
 
@@ -26,6 +44,56 @@ Para gerar o projeto nativo iOS e abrir no Xcode:
 npm run ios:prebuild  # Gera o projeto iOS nativo
 npm run xcode         # Abre o projeto no Xcode
 ```
+
+## Releases & Updates
+
+### OTA Updates (Over-The-Air)
+
+Este projeto está configurado para usar EAS Update para atualizações OTA:
+
+- **Development**: Atualizações automáticas para desenvolvedores
+- **Staging**: Testes pré-produção com beta testers
+- **Production**: Atualizações para usuários finais
+
+**Documentação completa:** [docs/OTA_UPDATES.md](./docs/OTA_UPDATES.md)
+
+**Publicar update:**
+```bash
+npx eas update --branch production --message "Descrição da atualização"
+```
+
+### Build e Deploy
+
+```bash
+# Build de desenvolvimento
+npm run ios:build -- --profile development
+
+# Build de produção
+npm run ios:build -- --profile production
+
+# Submit para App Store
+npm run ios:submit
+```
+
+## Development Tools
+
+### Code Quality
+
+```bash
+npm run lint          # Executar linter
+npm run doctor        # Verificar saúde do projeto Expo
+npm run analyze:deps  # Auditar dependências não utilizadas
+```
+
+Veja [docs/DEPENDENCIES_AUDIT.md](./docs/DEPENDENCIES_AUDIT.md) para mais informações sobre auditoria de dependências.
+
+### Monitoring
+
+O projeto está preparado para integração com Sentry para monitoramento de erros:
+
+1. Criar projeto no [Sentry](https://sentry.io)
+2. Adicionar `SENTRY_DSN` ao `.env`
+3. Descomentar plugin `sentry-expo` no `app.config.ts`
 
 ## Xcode Cloud Setup
 

@@ -6,6 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { AuthProvider } from '../contexts/AuthContext';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { PerformanceMonitor, MemoryManager } from '../utils/performance';
+import { initSentry } from '../src/sentry';
+import { initNotifications } from '../services/notifications';
 import '../global.css';
 
 function LoadingScreen() {
@@ -68,6 +70,12 @@ function RootLayoutContent() {
     // Preparação instantânea - apenas 30ms
     const prepare = async () => {
       try {
+        // Inicializar Sentry (condicional se DSN configurado)
+        initSentry();
+        
+        // Inicializar serviço de notificações
+        await initNotifications();
+        
         // Minimal preparation - only 30ms
         await new Promise(resolve => setTimeout(resolve, 30));
         

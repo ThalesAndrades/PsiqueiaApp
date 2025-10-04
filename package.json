@@ -20,7 +20,10 @@
     "ci:post-build": "bash scripts/ci-post-build.sh",
     "clean:builds": "rm -rf ios/build build-artifacts",
     "update:deps": "npm update && cd ios && pod update",
-    "check:config": "node -e \"console.log('Checking configuration...'); process.exit(0);\""
+    "check:config": "node -e \"console.log('Checking configuration...'); process.exit(0);\"",
+    "doctor": "npx expo-doctor",
+    "analyze:deps": "npx depcheck",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@apollo/client": "^3.4.10",
@@ -48,6 +51,7 @@
     "@react-navigation/native-stack": "7.3.10",
     "@react-navigation/routers": "7.3.5",
     "@react-navigation/stack": "7.2.10",
+    "@sentry/react-native": "^6.22.0",
     "@shopify/flash-list": "1.7.6",
     "@shopify/react-native-skia": "v2.0.0-next.4",
     "@stripe/stripe-react-native": "0.45.0",
@@ -159,6 +163,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "semver": "^7.6.0",
+    "sentry-expo": "^7.2.0",
     "snack-content": "^3.2.0",
     "tslib": "2.6.2",
     "url": "^0.11.0",
