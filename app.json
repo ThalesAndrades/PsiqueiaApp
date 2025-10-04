@@ -160,7 +160,10 @@
       "**/*"
     ],
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "1193bf61-c65b-4e97-bbf2-708e593ae16f"
+      }
     },
     "owner": "thales-andrades"
   }
