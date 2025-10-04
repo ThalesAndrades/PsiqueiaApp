@@ -48,6 +48,7 @@ app-example
 credentials/
 private_keys/
 google-service-account.json
-sentry.properties
+# sentry.properties - comentado para permitir template placeholder
+# Descomentar acima quando configurar com valores reais
 .env
 
